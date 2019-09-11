@@ -16,7 +16,6 @@ const int BUTTON_D = 2;
 const int BUTTON_F = 3;
 const int BUTTON_J = 4;
 const int BUTTON_K = 5;
-const int TOGGLE = 6;
 const int INDICATOR_LED = 13;
 
 //Variables
@@ -24,7 +23,6 @@ int dState = 0;
 int fState = 0;
 int jState = 0;
 int kState = 0;
-int toggleState = 0;
 
 void setup()
 {
@@ -35,7 +33,7 @@ void setup()
   pinMode(BUTTON_K, INPUT);
 
   //Initialize output
-  pinMode(TOGGLE, OUTPUT);
+  pinMode(INDICATOR_LED, OUTPUT);
 
   Keyboard.begin();
 }
@@ -47,33 +45,43 @@ void loop()
   fState = digitalRead(BUTTON_F);
   jState = digitalRead(BUTTON_J);
   kState = digitalRead(BUTTON_K);
-  toggleState = digitalRead(TOGGLE);
 
-  //Toggle keyboard on and off
-  if(toggleState == HIGH)
-  {
-    digitalWrite(INDICATOR_LED, HIGH);
+  digitalWrite(INDICATOR_LED, HIGH);
     
-    //Output
-    if(dState == HIGH)
-    {
-      Keyboard.write('d');
-    }
-    if(fState == HIGH)
-    {
-      Keyboard.write('f');
-    }
-    if(jState == HIGH)
-    {
-      Keyboard.write('j');
-    }
-    if(kState == HIGH)
-    {
-      Keyboard.write('k');
-    }
+  //Output
+  if(dState == LOW)
+  {
+    Keyboard.press('d');
   }
   else
   {
-    digitalWrite(INDICATOR_LED, LOW);
+    Keyboard.release('d');
+  }
+    
+  if(fState == LOW)
+  {
+    Keyboard.press('f');
+  }
+  else
+  {
+    Keyboard.release('f');
+  }
+    
+  if(jState == LOW)
+  {
+    Keyboard.press('j');
+  }
+  else
+  {
+    Keyboard.release('j');
+  }
+    
+  if(kState == LOW)
+  {
+    Keyboard.press('k');
+  }
+  else
+  {
+    Keyboard.release('k');
   }
 }
